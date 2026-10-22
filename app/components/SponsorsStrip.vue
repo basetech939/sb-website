@@ -11,7 +11,7 @@
     </div>
 
     <!-- endless logo belt (pauses on hover) -->
-    <div class="group relative mt-12 [mask-image:linear-gradient(90deg,transparent,black_8%,black_92%,transparent)]">
+    <div class="group relative mt-9 py-3 [mask-image:linear-gradient(90deg,transparent,black_8%,black_92%,transparent)]">
       <div class="marquee flex w-max gap-5 group-hover:[animation-play-state:paused]">
         <a
           v-for="(s, i) in [...sponsors, ...sponsors]"

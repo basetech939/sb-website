@@ -13,8 +13,8 @@
           <SocialIcon :name="s.key" class="size-3.5" />
         </a>
       </div>
-      <span class="h-10 w-px bg-navy/20" />
-      <p class="font-display text-[0.62rem] font-bold uppercase tracking-[0.32em] text-navy/70 [writing-mode:vertical-rl] rotate-180">
+      <span class="h-6 w-px bg-navy/20" />
+      <p class="rotate-180 rounded-full bg-white/95 px-1 py-3 font-display text-[0.62rem] font-bold uppercase tracking-[0.32em] text-navy shadow-md ring-1 ring-navy/10 backdrop-blur [writing-mode:vertical-rl]">
         <span class="text-mode-strong">{{ brand.name }}</span> · {{ total }} followers
       </p>
     </div>
@@ -24,7 +24,7 @@
       <!-- untouched lane: overgrown (mowing) or grimy concrete (washing) -->
       <div class="absolute inset-x-2 inset-y-0 overflow-hidden rounded-full ring-1 ring-black/10" :class="mode === 'mowing' ? 'lane-wild' : 'lane-dirty'">
         <!-- finished part grows downward -->
-        <div ref="done" class="absolute inset-x-0 top-0 h-full origin-top" :class="mode === 'mowing' ? 'lane-cut' : 'lane-clean'" style="transform: scaleY(0)" />
+        <div ref="done" class="absolute inset-0" :class="mode === 'mowing' ? 'lane-cut' : 'lane-clean'" style="clip-path: inset(0 0 100% 0)" />
       </div>
       <!-- section ticks -->
       <button
@@ -39,15 +39,15 @@
         <span
           class="whitespace-nowrap rounded-full bg-navy px-2.5 py-1 font-display text-[0.6rem] font-bold uppercase tracking-[0.16em] text-white opacity-0 shadow-md transition group-hover:opacity-100"
           >{{ s.label }}</span>
-        <span class="block h-0.5 w-2.5 rounded-full transition" :class="progress >= s.at - 0.002 ? 'bg-mode' : 'bg-navy/25'" />
+        <span class="block h-1 w-3 rounded-full ring-1 ring-white transition" :class="progress >= s.at - 0.002 ? 'bg-mode' : 'bg-navy/30'" />
       </button>
       <!-- the machine riding the lane -->
       <div ref="rider" class="absolute left-1/2 top-0 grid size-9 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white text-mode-strong shadow-lg ring-2 ring-mode">
         <ModeIcon :name="mode" class="size-4.5" />
       </div>
-      <p class="absolute -bottom-7 left-1/2 -translate-x-1/2 font-display text-[0.65rem] font-black tabular-nums text-navy/70"><span ref="pct">0</span>%</p>
+      <p class="absolute -bottom-9 left-1/2 -translate-x-1/2 rounded-full bg-white/95 px-2 py-1 font-display text-[0.65rem] font-black tabular-nums text-navy shadow-md ring-1 ring-navy/10 backdrop-blur"><span ref="pct">0</span>%</p>
       <Transition enter-active-class="transition duration-300" enter-from-class="opacity-0 translate-y-1" leave-active-class="transition duration-150" leave-to-class="opacity-0">
-        <p v-if="current" :key="current" class="absolute bottom-full left-1/2 mb-3 -translate-x-1/2 rotate-180 whitespace-nowrap font-display text-[0.6rem] font-bold uppercase tracking-[0.3em] text-mode-strong [writing-mode:vertical-rl]">{{ current }}</p>
+        <p v-if="current" :key="current" class="absolute bottom-full left-1/2 mb-3 -translate-x-1/2 rotate-180 whitespace-nowrap rounded-full bg-white/95 px-1 py-2.5 font-display text-[0.6rem] font-bold uppercase tracking-[0.3em] text-mode-strong shadow-md ring-1 ring-navy/10 backdrop-blur [writing-mode:vertical-rl]">{{ current }}</p>
       </Transition>
     </div>
   </div>
@@ -82,7 +82,7 @@ function measure() {
 function go(el: HTMLElement) { $lenis ? ($lenis as any).scrollTo(el, { offset: -80 }) : el.scrollIntoView({ behavior: 'smooth' }) }
 
 let st: ScrollTrigger | null = null
-const setDone = () => gsap.quickSetter(done.value, 'scaleY')
+const setDone = () => (p: number) => { done.value!.style.clipPath = `inset(0 0 ${((1 - p) * 100).toFixed(2)}% 0)` }
 const setY = () => gsap.quickSetter(rider.value, 'top', '%')
 onMounted(() => {
   const sd = setDone(), sy = setY()

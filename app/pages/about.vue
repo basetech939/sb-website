@@ -5,7 +5,7 @@
     <section ref="root" class="relative bg-paper pb-24 pt-4">
       <div class="container-x relative">
         <!-- the timeline line fills as you read -->
-        <div class="absolute bottom-10 left-[1.65rem] top-4 w-1 rounded-full bg-line sm:left-1/2 sm:-translate-x-1/2">
+        <div class="line absolute bottom-10 left-[1.65rem] top-4 w-1 rounded-full bg-line sm:left-1/2 sm:-translate-x-1/2">
           <div class="fill h-full origin-top rounded-full bg-mode" />
         </div>
         <ol class="relative space-y-16 sm:space-y-24">
@@ -50,7 +50,8 @@ useSeoMeta({ title: 'About Spencer' })
 
 const root = useScrollFx(({ gsap, reduced }) => {
   if (reduced) return
-  gsap.fromTo('.fill', { scaleY: 0 }, { scaleY: 1, ease: 'none', scrollTrigger: { trigger: root.value, start: 'top 60%', end: 'bottom 70%', scrub: 0.4 } })
+  // the fill tip sits exactly at the middle of the screen: same scroll distance as the line's own height
+  gsap.fromTo('.fill', { scaleY: 0 }, { scaleY: 1, ease: 'none', scrollTrigger: { trigger: '.line', start: 'top center', end: 'bottom center', scrub: true } })
   gsap.utils.toArray<HTMLElement>('.chapter').forEach((el) => {
     gsap.from(el.querySelectorAll('.photo'), { y: 70, opacity: 0, scale: 0.94, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 80%' } })
     gsap.from(el.children[1]!, { y: 40, opacity: 0, duration: 0.9, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 80%' } })

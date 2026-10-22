@@ -12,7 +12,7 @@
     <ShopSection />
     <SlantDivider from="#F6F8F3" to="#FFFFFF" flip />
     <SponsorsStrip />
-    <SlantDivider from="#FFFFFF" to="#7AAD44" stripe="#062954" />
+    <SlantDivider from="#FFFFFF" to="#7AAD44" stripe="#A9D07A" />
     <MowItForwardTeaser />
   </div>
 </template>

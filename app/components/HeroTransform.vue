@@ -34,6 +34,7 @@
           </g>
           <!-- mower -->
           <g ref="mower">
+            <ellipse cx="0" cy="4" rx="52" ry="46" fill="#000" opacity="0.18" />
             <g class="clippings" fill="#9BCB62">
               <rect x="-6" y="34" width="5" height="2" rx="1" />
               <rect x="4" y="44" width="4" height="2" rx="1" />
@@ -88,6 +89,8 @@
             <circle v-for="(s, i) in grit" :key="`g${i}`" :cx="s.x" :cy="s.y" :r="s.r" fill="#CFCAC0" />
           </g>
           <path :d="joints" stroke="#BDB7AB" stroke-width="5" fill="none" />
+          <!-- freshly washed concrete stays wet (darker) for a moment behind the cleaner -->
+          <path ref="wet" :d="washPath" fill="none" stroke="#7E98A8" stroke-opacity="0.32" stroke-width="112" stroke-linecap="round" stroke-linejoin="round" />
           <!-- dirty layer, washed away by the surface cleaner's path -->
           <g :mask="`url(#${uid}-wash)`">
             <rect :width="W" :height="H" fill="#8E897E" />
@@ -98,6 +101,7 @@
           </g>
           <!-- surface cleaner -->
           <g ref="cleaner">
+            <circle cx="3" cy="5" r="56" fill="#000" opacity="0.18" />
             <g class="spray" fill="#BFE9FB">
               <circle v-for="(d, i) in sprayDots" :key="`sd${i}`" :cx="d.x" :cy="d.y" :r="d.r" />
             </g>
@@ -228,6 +232,7 @@ const lawnStroke = ref<SVGPathElement | null>(null)
 const washStroke = ref<SVGPathElement | null>(null)
 const mower = ref<SVGGElement | null>(null)
 const cleaner = ref<SVGGElement | null>(null)
+const wet = ref<SVGPathElement | null>(null)
 const lawnPct = ref<HTMLElement | null>(null)
 const washPct = ref<HTMLElement | null>(null)
 const intro = ref<HTMLElement | null>(null)
@@ -238,10 +243,26 @@ const root = useScrollFx(({ gsap, reduced }) => {
   const lL = ls.getTotalLength(), wL = ws.getTotalLength()
   gsap.set(ls, { strokeDasharray: lL, strokeDashoffset: lL })
   gsap.set(ws, { strokeDasharray: wL, strokeDashoffset: wL })
-  // vehicles are drawn around (0,0) facing +x, so the raw path coordinates place and rotate them directly
-  const motion = (d: string) => ({ path: d, autoRotate: true })
-
+  // place a machine exactly on its path at distance d (same distance the mask has revealed), facing along the path
+  const place = (el: SVGGElement, path: SVGPathElement, d: number, len: number) => {
+    const a = path.getPointAtLength(Math.max(0, Math.min(len, d)))
+    const b = path.getPointAtLength(Math.max(0, Math.min(len, d + 1)))
+    const deg = Math.atan2(b.y - a.y, b.x - a.x) * 180 / Math.PI
+    el.setAttribute('transform', `translate(${a.x.toFixed(2)} ${a.y.toFixed(2)}) rotate(${deg.toFixed(2)})`)
+  }
+  const wp = wet.value!
+  const trail = wL * 0.07
+  const render = (p: number) => {
+    ls.style.strokeDashoffset = String(lL * (1 - p))
+    ws.style.strokeDashoffset = String(wL * (1 - p))
+    place(mower.value!, ls, lL * p, lL)
+    place(cleaner.value!, ws, wL * p, wL)
+    // wet band: only the last bit behind the cleaner
+    wp.style.strokeDasharray = `0 ${Math.max(0, wL * p - trail)} ${Math.min(trail, wL * p)} ${wL}`
+    const v = String(Math.round(p * 100)); lawnPct.value!.textContent = v; washPct.value!.textContent = v
+  }
   if (reduced) {
+    render(1); wp.style.opacity = '0'
     gsap.set([ls, ws], { strokeDashoffset: 0 })
     gsap.set([mower.value, cleaner.value], { opacity: 0 })
     gsap.set(intro.value, { opacity: 0 }); gsap.set(outro.value, { opacity: 1 })
@@ -250,7 +271,7 @@ const root = useScrollFx(({ gsap, reduced }) => {
     return
   }
 
-  const prog = { v: 0 }
+  const prog = { p: 0 }
   const tl = gsap.timeline({
     defaults: { ease: 'none' },
     scrollTrigger: {
@@ -261,19 +282,11 @@ const root = useScrollFx(({ gsap, reduced }) => {
     },
   })
   tl.to(intro.value, { yPercent: -18, opacity: 0, duration: 0.12, ease: 'power2.in' }, 0)
-    .to(ls, { strokeDashoffset: 0, duration: 0.8 }, 0.05)
-    .to(mower.value, { motionPath: motion(lawnPath), duration: 0.8 }, 0.05)
-    .to(ws, { strokeDashoffset: 0, duration: 0.8 }, 0.05)
-    .to(cleaner.value, { motionPath: motion(washPath), duration: 0.8 }, 0.05)
-    .to(prog, { v: 100, duration: 0.8, onUpdate: () => {
-      const v = String(Math.round(prog.v))
-      lawnPct.value!.textContent = v; washPct.value!.textContent = v
-    } }, 0.05)
+    .to(prog, { p: 1, duration: 0.8, onUpdate: () => render(prog.p) }, 0.05)
     .to([mower.value, cleaner.value], { opacity: 0, duration: 0.05 }, 0.86)
+    .to(wp, { opacity: 0, duration: 0.05 }, 0.86)
     .fromTo(outro.value, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.1, ease: 'power2.out' }, 0.88)
-  // park vehicles at the start of their paths before any scroll
-  gsap.set(mower.value, { motionPath: { ...motion(lawnPath), start: 0, end: 0 } })
-  gsap.set(cleaner.value, { motionPath: { ...motion(washPath), start: 0, end: 0 } })
+  render(0)
   requestAnimationFrame(() => ScrollTrigger.refresh())
 })
 </script>
