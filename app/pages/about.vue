@@ -19,7 +19,7 @@
               <p class="mt-4 text-[1.02rem] leading-relaxed text-stone">{{ c.text }}</p>
             </div>
             <div :class="i % 2 ? 'sm:order-1 sm:pr-6' : 'sm:pl-6'">
-              <img :src="$a(c.photo)" :alt="c.title" class="photo w-full rounded-[1.6rem] object-cover shadow-[0_24px_50px_-30px_rgba(6,41,84,0.6)] ring-1 ring-black/5" :class="i % 2 ? 'rotate-[-1.5deg]' : 'rotate-[1.5deg]'" loading="lazy">
+              <img :src="$a(c.photo)" :alt="c.title" class="photo aspect-[4/3] w-full rounded-[1.6rem] object-cover shadow-[0_24px_50px_-30px_rgba(6,41,84,0.6)] ring-1 ring-black/5" :class="i % 2 ? 'rotate-[-1.5deg]' : 'rotate-[1.5deg]'" loading="lazy" @load="relayout">
             </div>
           </li>
         </ol>
@@ -44,9 +44,13 @@
 </template>
 
 <script setup lang="ts">
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { story } from '~/data/site'
 definePageMeta({ footerFrom: '#FFFFFF' })
 useSeoMeta({ title: 'About Spencer' })
+// photos change the page height when they arrive: re-measure the timeline
+let raf = 0
+function relayout() { cancelAnimationFrame(raf); raf = requestAnimationFrame(() => ScrollTrigger.refresh()) }
 
 const root = useScrollFx(({ gsap, reduced }) => {
   if (reduced) return

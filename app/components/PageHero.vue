@@ -1,5 +1,5 @@
 <template>
-  <section ref="root" class="relative overflow-hidden bg-navy pb-16 pt-32 text-white sm:pb-20 sm:pt-40" :data-section="eyebrow.split(' ·')[0]">
+  <section ref="root" class="relative overflow-hidden bg-navy pb-[calc(4rem+clamp(76px,10vw,150px))] pt-32 text-white sm:pb-[calc(5rem+clamp(76px,10vw,150px))] sm:pt-40" :data-section="eyebrow.split(' ·')[0]">
     <!-- mowing stripes (or spray sheen) drift by as you scroll -->
     <div class="lanes pointer-events-none absolute inset-y-0 -left-[10%] -right-[10%] flex opacity-[0.16]">
       <span v-for="i in 12" :key="i" class="h-full flex-1" :class="i % 2 ? 'bg-mode' : 'bg-transparent'" />
@@ -13,8 +13,9 @@
       <p v-if="text" class="mt-6 max-w-2xl text-[1.05rem] leading-relaxed text-white/80">{{ text }}</p>
       <slot />
     </div>
+    <!-- divider sits inside the hero so the stripes run behind it -->
+    <SlantDivider overlay from="#062954" :to="to" stripe="var(--mode)" class="absolute inset-x-0 bottom-0" />
   </section>
-  <SlantDivider from="#062954" :to="to" stripe="var(--mode)" />
 </template>
 
 <script setup lang="ts">

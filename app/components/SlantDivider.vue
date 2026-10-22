@@ -2,17 +2,22 @@
   <!-- sbmowing.com's slanted divider, animated by scroll:
        Mowing: grass grows along the edge, then a little mower drives along it and cuts it short.
        Pressure Washing: a nozzle sweeps along the edge and water drips off it. -->
-  <div ref="root" class="relative z-[2] -my-px h-[clamp(76px,10vw,150px)]" :style="{ background: textureFrom ? from : to }" aria-hidden="true">
-    <div v-if="textureTo || textureFrom" class="mow-stripes absolute inset-0 opacity-70" />
+  <div ref="root" class="z-[2] -my-px h-[clamp(76px,10vw,150px)]" :class="overlay ? '' : 'relative'" :style="{ background: overlay ? 'transparent' : textureFrom ? from : to }" aria-hidden="true">
+    <div v-if="(textureTo || textureFrom) && !overlay" class="mow-stripes absolute inset-0 opacity-70" />
     <svg class="absolute inset-0 size-full overflow-visible" :viewBox="`0 0 ${VW} ${VH}`" preserveAspectRatio="none" :class="flip ? '-scale-x-100' : ''">
-      <template v-if="!textureFrom">
+      <defs>
+        <clipPath :id="`${uid}-dirty`"><rect ref="dirtyClip" :x="0" y="-20" :width="VW" :height="VH + 40" /></clipPath>
+      </defs>
+      <template v-if="!belowMode">
         <path class="s2" :d="above(SW * 2)" :fill="stripe" />
+        <path v-if="mode === 'washing'" :d="above(SW * 2)" fill="#8B7F6A" :clip-path="`url(#${uid}-dirty)`" />
         <path v-if="!sameAsNavy" class="s1" :d="above(SW)" fill="#062954" />
         <path :d="above(0)" :fill="from" />
       </template>
       <template v-else>
         <path :d="below(0)" fill="#062954" />
         <path :d="below(SW)" :fill="stripe" />
+        <path v-if="mode === 'washing'" :d="below(SW)" fill="#8B7F6A" :clip-path="`url(#${uid}-dirty)`" />
         <path :d="below(SW * 2)" :fill="to" />
       </template>
 
@@ -46,10 +51,14 @@
           :transform="`translate(${d.x} ${d.y}) scale(0)`"
         />
         <g ref="nozzleEl" opacity="0">
-          <path d="M0 0 L-14 -26" stroke="#2A2A2A" stroke-width="4" stroke-linecap="round" />
-          <circle cx="-15" cy="-28" r="5" fill="#1C88C6" />
-          <path d="M-6 3 Q0 14 6 3" fill="#BFE9FB" opacity="0.9" />
-          <path d="M-12 4 Q0 22 12 4" fill="#BFE9FB" opacity="0.5" />
+          <!-- spray fan hitting the edge -->
+          <path class="fan" d="M0 -8 L-16 14 Q0 20 16 14 Z" fill="#BFE9FB" opacity="0.75" />
+          <path class="fan" d="M0 -8 L-9 12 Q0 16 9 12 Z" fill="#FFFFFF" opacity="0.7" />
+          <!-- wand + hands -->
+          <path d="M0 -8 L-10 -34" stroke="#2A2A2A" stroke-width="4.5" stroke-linecap="round" />
+          <rect x="-4" y="-14" width="8" height="8" rx="2" fill="#D7262B" />
+          <circle cx="-11" cy="-37" r="6" fill="#1C88C6" />
+          <circle cx="-11" cy="-37" r="3" fill="#E8B48F" />
         </g>
       </g>
     </svg>
@@ -63,7 +72,10 @@ const props = withDefaults(defineProps<{
   from?: string; to?: string; stripe?: string; flip?: boolean
   /** paint mow stripes over the colour below / above the line (for the striped green sections) */
   textureTo?: boolean; textureFrom?: boolean
-}>(), { from: '#F6F8F3', to: '#F6F8F3', stripe: 'var(--mode)', flip: false, textureTo: false, textureFrom: false })
+  /** transparent above the line: sits over the bottom of the section above (that section's background shows through) */
+  overlay?: boolean
+}>(), { from: '#F6F8F3', to: '#F6F8F3', stripe: 'var(--mode)', flip: false, textureTo: false, textureFrom: false, overlay: false })
+const belowMode = computed(() => props.textureFrom || props.overlay)
 
 const { mode } = useMode()
 const VW = 1280, VH = 140, SW = 9
@@ -96,6 +108,8 @@ const bladeEls = ref<SVGPathElement[]>([])
 const dropEls = ref<SVGPathElement[]>([])
 const mowerEl = ref<SVGGElement | null>(null)
 const nozzleEl = ref<SVGGElement | null>(null)
+const dirtyClip = ref<SVGRectElement | null>(null)
+const uid = useId()
 const clamp01 = (v: number) => Math.max(0, Math.min(1, v))
 
 function render(p: number) {
@@ -127,6 +141,8 @@ function render(p: number) {
       el.setAttribute('opacity', (1 - fall).toFixed(3))
     })
     nozzleEl.value?.setAttribute('opacity', p > 0.02 && p < 0.8 ? '1' : '0')
+    // grime stays only ahead of the nozzle
+    dirtyClip.value?.setAttribute('x', nx.toFixed(1)); dirtyClip.value?.setAttribute('width', (VW - nx + 20).toFixed(1))
     nozzleEl.value?.setAttribute('transform', `translate(${nx.toFixed(1)} ${lineY(nx).toFixed(1)}) scale(${(1.5 / k).toFixed(3)} 1.5)`)
   }
 }
@@ -144,3 +160,8 @@ const root = useScrollFx(({ reduced }) => {
 watch(mode, () => nextTick(() => render(st?.progress ?? 0)))
 onBeforeUnmount(() => st?.kill())
 </script>
+
+<style scoped>
+.fan { animation: fan 0.35s ease-in-out infinite alternate; transform-origin: 0 -8px; transform-box: view-box; }
+@keyframes fan { from { opacity: 0.45; } to { opacity: 0.9; } }
+</style>
