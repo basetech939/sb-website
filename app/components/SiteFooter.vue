@@ -1,6 +1,6 @@
 <template>
   <footer class="relative bg-navy text-white">
-    <SlantDivider :from="footerFrom" to="#062954" flip />
+    <SlantDivider :from="footerFrom" to="#062954" flip :texture-from="!!route.meta.footerTexture" />
     <div class="container-x pb-10 pt-12 sm:pt-16">
       <div class="grid gap-12 lg:grid-cols-[1.2fr_1fr_1fr_1fr]">
         <div>

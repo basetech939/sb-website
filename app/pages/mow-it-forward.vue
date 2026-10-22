@@ -21,7 +21,7 @@
       </div>
     </section>
 
-    <SlantDivider from="#F6F8F3" to="#7AAD44" stripe="#A9D07A" />
+    <SlantDivider from="#F6F8F3" to="#7AAD44" stripe="#A9D07A" texture-to />
     <section class="relative overflow-hidden bg-grass py-20 text-white" data-section="Mission">
       <div class="mow-stripes pointer-events-none absolute inset-0 opacity-70" />
       <div class="container-x relative">
@@ -36,7 +36,7 @@
         </ul>
       </div>
     </section>
-    <SlantDivider from="#7AAD44" to="#F6F8F3" stripe="#A9D07A" flip />
+    <SlantDivider from="#7AAD44" to="#F6F8F3" stripe="#A9D07A" flip texture-from />
 
     <section class="bg-paper py-20" data-section="Team">
       <div class="container-x">

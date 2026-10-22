@@ -143,6 +143,17 @@
       </div>
     </div>
 
+    <!-- story beats while the work happens (one at a time, small, out of the way) -->
+    <div class="pointer-events-none absolute inset-x-0 top-[5.5rem] z-[2] flex justify-center px-5 sm:top-28">
+      <p
+        v-for="(b, i) in beats"
+        :key="i"
+        class="beat absolute max-w-[min(34rem,calc(100vw-2.5rem))] rounded-full bg-navy/80 px-5 py-2.5 text-center font-display text-[0.78rem] font-bold uppercase tracking-[0.14em] text-white opacity-0 shadow-lg ring-1 ring-white/15 backdrop-blur-md sm:text-sm"
+      >
+        <span class="mr-2 inline-block size-2 rounded-full align-middle" :class="i === 1 ? 'bg-sky' : 'bg-grass-light'" />{{ b }}
+      </p>
+    </div>
+
     <!-- final card: appears once both jobs are done -->
     <div ref="outro" class="pointer-events-none absolute inset-0 z-[2] flex items-center justify-center px-5 opacity-0">
       <div class="pointer-events-auto max-w-2xl rounded-[2rem] bg-white/95 px-6 py-8 text-center shadow-2xl ring-1 ring-black/5 backdrop-blur sm:px-10 sm:py-10">
@@ -169,6 +180,11 @@ const heroPinned = useState('hero-pinned', () => false)
 heroPinned.value = true
 onBeforeUnmount(() => { heroPinned.value = false })
 const uid = useId()
+const beats = [
+  'Three feet of grass. Ten years of grime.',
+  'No invoice. No catch. Just a knock on the door.',
+  'Every week, millions watch it happen.',
+]
 
 // scene size (both halves share it)
 const W = 600, H = 800
@@ -247,6 +263,7 @@ const root = useScrollFx(({ gsap, reduced }) => {
   const place = (el: SVGGElement, path: SVGPathElement, d: number, len: number) => {
     const a = path.getPointAtLength(Math.max(0, Math.min(len, d)))
     const b = path.getPointAtLength(Math.max(0, Math.min(len, d + 1)))
+    if (d >= len) return
     const deg = Math.atan2(b.y - a.y, b.x - a.x) * 180 / Math.PI
     el.setAttribute('transform', `translate(${a.x.toFixed(2)} ${a.y.toFixed(2)}) rotate(${deg.toFixed(2)})`)
   }
@@ -255,8 +272,8 @@ const root = useScrollFx(({ gsap, reduced }) => {
   const render = (p: number) => {
     ls.style.strokeDashoffset = String(lL * (1 - p))
     ws.style.strokeDashoffset = String(wL * (1 - p))
-    place(mower.value!, ls, lL * p, lL)
-    place(cleaner.value!, ws, wL * p, wL)
+    place(mower.value!, ls, lL * p + 30, lL)
+    place(cleaner.value!, ws, wL * p + 8, wL)
     // wet band: only the last bit behind the cleaner
     wp.style.strokeDasharray = `0 ${Math.max(0, wL * p - trail)} ${Math.min(trail, wL * p)} ${wL}`
     const v = String(Math.round(p * 100)); lawnPct.value!.textContent = v; washPct.value!.textContent = v
@@ -283,7 +300,13 @@ const root = useScrollFx(({ gsap, reduced }) => {
   })
   tl.to(intro.value, { yPercent: -18, opacity: 0, duration: 0.12, ease: 'power2.in' }, 0)
     .to(prog, { p: 1, duration: 0.8, onUpdate: () => render(prog.p) }, 0.05)
-    .to([mower.value, cleaner.value], { opacity: 0, duration: 0.05 }, 0.86)
+  // story beats: each fades in, holds, fades out
+  gsap.utils.toArray<HTMLElement>('.beat').forEach((el, i) => {
+    const at = 0.16 + i * 0.23
+    tl.fromTo(el, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.04, ease: 'power2.out' }, at)
+      .to(el, { opacity: 0, y: -10, duration: 0.04, ease: 'power2.in' }, at + 0.16)
+  })
+  tl.to([mower.value, cleaner.value], { opacity: 0, duration: 0.05 }, 0.86)
     .to(wp, { opacity: 0, duration: 0.05 }, 0.86)
     .fromTo(outro.value, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.1, ease: 'power2.out' }, 0.88)
   render(0)
