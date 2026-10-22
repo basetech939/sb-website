@@ -1,16 +1,21 @@
 <template>
-    <div>
-     <Button variant="outline">
-        hey
-     </Button>
-    </div>
+  <div>
+    <HeroTransform />
+    <StatsBand />
+    <SlantDivider from="#FFFFFF" to="#F6F8F3" />
+    <MeetSpencer />
+    <SlantDivider from="#F6F8F3" to="#062954" />
+    <LatestVideos />
+    <FootageBand />
+    <ShopSection />
+    <SlantDivider from="#F6F8F3" to="#FFFFFF" flip />
+    <SponsorsStrip />
+    <SlantDivider from="#FFFFFF" to="#7AAD44" stripe="#062954" />
+    <MowItForwardTeaser />
+  </div>
 </template>
 
-<script setup>
-import { Button } from '@/components/ui/button'
-
+<script setup lang="ts">
+definePageMeta({ footerFrom: '#7AAD44' })
+useSeoMeta({ title: 'Spencer · Lawn Care’s #1 Creator' })
 </script>
-
-<style  scoped>
-
-</style>

@@ -1,25 +1,10 @@
 <template>
-     <Html :lang="head.htmlAttrs.lang" :dir="head.htmlAttrs.dir" class="light">
-      <Head>
-        <template v-for="link in head.link" :key="link.key">
-          <Link :id="link.key" :rel="link.rel" :href="link.href" :hreflang="link.hreflang" />
-        </template>
-        <template v-for="meta in head.meta" :key="meta.key">
-          <Meta :id="meta.key" :property="meta.property" :content="meta.content" />
-        </template>
-      </Head>
-      <Body>
-        <NuxtPage />
-      </Body>
-    </Html>
+  <div class="relative min-h-dvh">
+    <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-mode focus:px-4 focus:py-2 focus:text-white">Skip to content</a>
+    <SiteHeader />
+    <main id="main">
+      <slot />
+    </main>
+    <SiteFooter />
+  </div>
 </template>
-
-<script setup>
-
-const head = useLocaleHead()
-
-</script>
-
-<style  scoped>
-
-</style>

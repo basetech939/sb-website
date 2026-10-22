@@ -1,75 +1,34 @@
-# Nuxt Minimal Starter
+# SB Mowing & SB Pressure Washing — website (concept)
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Concept redesign of sbmowing.com by BaseTech. Built on the `nuxt-simple-kit` starter (Nuxt 4 + Tailwind 4) with GSAP ScrollTrigger and Lenis smooth scrolling. Static output, no WordPress and no tracking scripts.
 
-## Setup
-
-Make sure to install dependencies:
+## Run it
 
 ```bash
-# npm
 npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
+npm run dev        # http://localhost:3000
+npx nuxt generate  # static site in .output/public
 ```
 
-## Development Server
+## Two brands, one site
 
-Start the development server on `http://localhost:3000`:
+A header toggle switches between **SB Mowing** (green) and **SB Pressure Washing** (blue).
+The switch plays a full-screen wipe (mower lanes / spray rows), then the whole site re-themes:
+accent colour, logo, videos, footage, shop items and follower counts.
+The choice is remembered (`localStorage: sb-mode`) and applied before first paint.
 
-```bash
-# npm
-npm run dev
+| What | Where |
+|---|---|
+| Copy, links, FAQ, story, sponsors, team | `app/data/site.ts` |
+| Videos, Shopify products, equipment (generated from the live sources) | `app/data/catalog.ts` |
+| Mode state + switch | `app/composables/useMode.ts`, `app/plugins/mode.client.ts`, `app/components/ModeToggle.vue`, `ModeWipe.vue` |
+| Home hero (lawn mowed + driveway washed on scroll) | `app/components/HeroTransform.vue` |
+| Signature slanted dividers (same shape as sbmowing.com) | `app/components/SlantDivider.vue` |
+| Colours & fonts (Roboto + Lato, self-hosted) | `app/assets/css/main.css` |
+| Logos (SVG recreations + light WebP versions for UI) | `public/images/brand/` |
 
-# pnpm
-pnpm dev
+## Before launch
 
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+- **Contact / donations / newsletter** link to the existing forms on sbmowing.com (no form backend here).
+- **Shop** links go to the Shopify store (`sbmowing.myshopify.com`).
+- **Numbers** (followers, views, likes) are copied from the current site and YouTube; update in the data files.

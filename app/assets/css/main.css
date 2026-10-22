@@ -4,7 +4,50 @@
 @custom-variant dark (&:is(.dark *));
 @plugin 'tailwind-scrollbar';
 
+/* Fonts from the current sbmowing.com: Roboto for headings, Lato for text (self-hosted) */
+@font-face {
+  font-family: "Roboto";
+  src: url("../fonts/roboto-latin-wght-normal.woff2") format("woff2");
+  font-weight: 100 900;
+  font-display: swap;
+}
+@font-face { font-family: "Lato"; src: url("../fonts/lato-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Lato"; src: url("../fonts/lato-latin-700-normal.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "Lato"; src: url("../fonts/lato-latin-900-normal.woff2") format("woff2"); font-weight: 900; font-display: swap; }
+
+/* Mode colours animate when the visitor switches Mowing <-> Pressure Washing */
+@property --mode { syntax: "<color>"; inherits: true; initial-value: #7AAD44; }
+@property --mode-strong { syntax: "<color>"; inherits: true; initial-value: #5E8F2E; }
+@property --mode-soft { syntax: "<color>"; inherits: true; initial-value: #EEF5E4; }
+@property --mode-ink { syntax: "<color>"; inherits: true; initial-value: #355A16; }
+
 @theme inline {
+  --font-display: "Roboto", system-ui, sans-serif;
+  --font-sans: "Lato", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* SB palette (sampled from the logos and sbmowing.com) */
+  --color-navy: #062954;
+  --color-navy-2: #0A3A6E;
+  --color-navy-3: #04203F;
+  --color-grass: #7AAD44;
+  --color-grass-dark: #5E8F2E;
+  --color-grass-light: #A9D07A;
+  --color-water: #1C88C6;
+  --color-water-dark: #0B68A8;
+  --color-water-light: #42B5E8;
+  --color-sky: #6ED2F8;
+  --color-sun: #FFD400;
+  --color-ink: #1E2A36;
+  --color-stone: #5F6B76;
+  --color-paper: #F6F8F3;
+  --color-line: #E3E8E0;
+
+  /* the current mode (green for Mowing, blue for Pressure Washing) */
+  --color-mode: var(--mode);
+  --color-mode-strong: var(--mode-strong);
+  --color-mode-soft: var(--mode-soft);
+  --color-mode-ink: var(--mode-ink);
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -27,95 +70,111 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-}
+  --radius: 0.9rem;
+  --background: #F6F8F3;
+  --foreground: #1E2A36;
+  --card: #FFFFFF;
+  --card-foreground: #1E2A36;
+  --popover: #FFFFFF;
+  --popover-foreground: #1E2A36;
+  --primary: #062954;
+  --primary-foreground: #FFFFFF;
+  --secondary: #EEF2EA;
+  --secondary-foreground: #062954;
+  --muted: #EEF2EA;
+  --muted-foreground: #5F6B76;
+  --accent: #EEF2EA;
+  --accent-foreground: #062954;
+  --destructive: #C2410C;
+  --border: #E3E8E0;
+  --input: #CED6CB;
+  --ring: #062954;
 
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --mode: #7AAD44;
+  --mode-strong: #5E8F2E;
+  --mode-soft: #EEF5E4;
+  --mode-ink: #355A16;
+  transition: --mode 0.7s ease, --mode-strong 0.7s ease, --mode-soft 0.7s ease, --mode-ink 0.7s ease;
+}
+html[data-mode="washing"] {
+  --mode: #1C88C6;
+  --mode-strong: #0B68A8;
+  --mode-soft: #E4F3FB;
+  --mode-ink: #0A4D7E;
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+    overflow-x: clip;
+  }
+  h1, h2, h3, h4, .font-display {
+    font-family: var(--font-display);
+  }
+  ::selection {
+    background: var(--mode);
+    color: #fff;
+  }
+}
+
+/* Pre-hidden until GSAP reveals them (see head script in nuxt.config) */
+html.js-anim [data-reveal="fade"],
+html.js-anim [data-reveal="stagger"] > * { opacity: 0; transform: translateY(42px); }
+html.js-anim .pre-hide { opacity: 0; }
+
+/* Lenis */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+@utility container-x {
+  @apply relative z-[1] mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-12;
+}
+/* sbmowing.com heading style: uppercase, a light half and a bold half, short accent bar underneath */
+@utility sb-title {
+  @apply font-display text-[clamp(1.9rem,4.2vw,3.4rem)] font-light uppercase leading-[1.02] tracking-[0.01em] text-navy;
+}
+@utility sb-bar {
+  @apply mt-4 block h-1 w-16 rounded-full bg-mode;
+}
+@utility eyebrow {
+  @apply inline-flex items-center gap-2 font-display text-xs font-bold uppercase tracking-[0.3em] text-mode-strong;
+}
+@utility btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 font-display text-sm font-bold uppercase tracking-[0.12em] transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-4;
+}
+@utility btn-mode {
+  @apply btn bg-mode text-white hover:bg-mode-strong hover:-translate-y-0.5 shadow-[0_12px_28px_-12px_var(--mode)];
+}
+@utility btn-navy {
+  @apply btn bg-navy text-white hover:bg-navy-2 hover:-translate-y-0.5;
+}
+@utility btn-ghost {
+  @apply btn border-2 border-current hover:-translate-y-0.5;
+}
+@utility card {
+  @apply rounded-[1.4rem] bg-white shadow-[0_18px_44px_-30px_rgba(6,41,84,0.45)] ring-1 ring-navy/5;
+}
+
+/* thin mow stripes texture (used on green panels) */
+.mow-stripes {
+  background-image: repeating-linear-gradient(90deg, rgba(255,255,255,0.07) 0 48px, rgba(0,0,0,0.05) 48px 96px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
