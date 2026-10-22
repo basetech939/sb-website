@@ -2,7 +2,7 @@
   <div>
     <PageHero eyebrow="Contact" light="Before contacting me," bold="please check out my FAQs" :text="contact.intro" />
 
-    <section class="bg-paper pb-24 pt-4">
+    <section class="bg-paper pb-24 pt-4" data-section="FAQ">
       <div class="container-x grid gap-12 lg:grid-cols-[1.35fr_1fr]">
         <!-- FAQ -->
         <div>

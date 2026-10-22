@@ -163,6 +163,7 @@ import { brands, hero, links } from '~/data/site'
 const { requestMode } = useMode()
 const heroPinned = useState('hero-pinned', () => false)
 heroPinned.value = true
+onBeforeUnmount(() => { heroPinned.value = false })
 const uid = useId()
 
 // scene size (both halves share it)

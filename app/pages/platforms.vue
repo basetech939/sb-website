@@ -2,7 +2,7 @@
   <div>
     <PageHero eyebrow="Platforms" light="Check out some of the" bold="other places you can find me" text="Over 55 million followers across every platform, on three channels." />
 
-    <section class="bg-paper pb-24 pt-4">
+    <section class="bg-paper pb-24 pt-4" data-section="Channels">
       <div class="container-x grid gap-6 lg:grid-cols-3">
         <article v-for="c in channels" :key="c.name" v-reveal class="card flex flex-col p-6 sm:p-7" :class="c.key === mode ? 'ring-2 !ring-mode' : ''">
           <div class="flex h-24 items-center">

@@ -7,7 +7,7 @@
       </div>
     </PageHero>
 
-    <section class="bg-paper pb-24 pt-6">
+    <section class="bg-paper pb-24 pt-6" data-section="Latest">
       <div class="container-x">
         <div class="mb-8 flex flex-wrap items-center justify-between gap-4">
           <h2 class="font-display text-sm font-bold uppercase tracking-[0.2em] text-navy">My most recent videos · <span class="text-mode-strong">{{ brand.name }}</span></h2>

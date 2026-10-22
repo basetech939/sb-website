@@ -184,3 +184,10 @@ export const faq = [
   { q: 'What do I use to record and edit?', a: 'I exclusively utilize my phone mounted on a tripod for recording. For editing, I rely on Final Cut Pro on Mac.' },
   { q: 'Can I give tips and tricks on how to better take care of your lawn?', a: 'I refrain from offering general lawn care tips as effective strategies vary greatly by location and grass type.' },
 ]
+
+// Before/after pairs: same fixed camera, frames from the SB website video
+export const beforeAfter = [
+  { brand: 'mowing' as const, title: 'The backyard nobody could walk through', note: 'One mower, one afternoon', before: '/images/ba/backyard-before.webp', after: '/images/ba/backyard-after.webp' },
+  { brand: 'mowing' as const, title: 'A sidewalk buried under the grass', note: 'Edged, trimmed and blown clean', before: '/images/ba/edging-before.webp', after: '/images/ba/edging-after.webp' },
+  { brand: 'washing' as const, title: 'Years of grime on one driveway', note: 'Surface cleaner + rinse', before: '/images/ba/driveway-before.webp', after: '/images/ba/driveway-after.webp' },
+]

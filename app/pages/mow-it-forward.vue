@@ -6,7 +6,7 @@
       </div>
     </PageHero>
 
-    <section class="bg-paper pb-20 pt-4">
+    <section class="bg-paper pb-20 pt-4" data-section="Who we are">
       <div class="container-x grid items-center gap-12 lg:grid-cols-2">
         <div>
           <img v-reveal :src="$a('/images/brand/SB-Mow-It-Forward-Logo.webp')" alt="SB Mow It Forward" class="h-16 w-auto mix-blend-multiply sm:h-20">
@@ -22,7 +22,7 @@
     </section>
 
     <SlantDivider from="#F6F8F3" to="#7AAD44" stripe="#062954" />
-    <section class="relative overflow-hidden bg-grass py-20 text-white">
+    <section class="relative overflow-hidden bg-grass py-20 text-white" data-section="Mission">
       <div class="mow-stripes pointer-events-none absolute inset-0 opacity-70" />
       <div class="container-x relative">
         <h2 v-reveal class="font-display text-[clamp(1.9rem,4.2vw,3.2rem)] font-light uppercase leading-[1.02]">Learn about <b class="font-black">our mission</b></h2>
@@ -38,7 +38,7 @@
     </section>
     <SlantDivider from="#7AAD44" to="#F6F8F3" stripe="#062954" flip />
 
-    <section class="bg-paper py-20">
+    <section class="bg-paper py-20" data-section="Team">
       <div class="container-x">
         <h2 v-reveal class="sb-title text-center">Meet the team <b class="font-black">behind the movement</b><span class="sb-bar mx-auto" /></h2>
         <p v-reveal class="mx-auto mt-6 max-w-2xl text-center text-stone">SB Mow It Forward is driven by passionate leaders, mentors, and volunteers who believe in the power of community and the potential of the next generation.</p>
@@ -56,7 +56,7 @@
       </div>
     </section>
 
-    <section class="bg-white py-20">
+    <section class="bg-white py-20" data-section="Donate">
       <div class="container-x">
         <div v-reveal class="relative overflow-hidden rounded-[2rem] bg-navy px-6 py-12 text-white sm:px-12">
           <div class="mow-stripes pointer-events-none absolute inset-0 opacity-40" />

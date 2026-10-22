@@ -16,7 +16,7 @@
         <source v-if="load" :src="$a(`/video/${mode}.mp4`)" type="video/mp4">
       </video>
     </div>
-    <div class="absolute inset-0 bg-[linear-gradient(90deg,rgba(4,32,63,0.88)_0%,rgba(4,32,63,0.55)_45%,rgba(4,32,63,0.1)_100%)]" />
+    <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,32,63,0.55)_0%,rgba(4,32,63,0.85)_60%,rgba(4,32,63,0.9)_100%)] md:bg-[linear-gradient(90deg,rgba(4,32,63,0.88)_0%,rgba(4,32,63,0.55)_45%,rgba(4,32,63,0.1)_100%)]" />
     <div class="container-x relative flex h-full items-center">
       <div class="max-w-xl text-white">
         <p v-reveal class="font-display text-xs font-bold uppercase tracking-[0.3em] text-white/70">{{ mode === 'mowing' ? 'Real lawns' : 'Real driveways' }} · real people</p>

@@ -2,7 +2,7 @@
   <div>
     <PageHero eyebrow="My equipment" light="Check out my" bold="awesome equipment" text="The gear I use for every job, from the mower that tackles sky-high grass to the pressure washer that brings driveways back to life." />
 
-    <section class="bg-paper pb-20 pt-4">
+    <section class="bg-paper pb-20 pt-4" data-section="Gear">
       <div class="container-x">
         <div class="mb-9 flex flex-wrap gap-2" role="tablist" aria-label="Filter equipment">
           <button

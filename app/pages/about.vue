@@ -26,7 +26,7 @@
       </div>
     </section>
 
-    <section class="bg-white py-20">
+    <section class="bg-white py-20" data-section="Thank you">
       <div class="container-x grid items-center gap-10 lg:grid-cols-[1fr_auto]">
         <div>
           <h2 v-reveal class="sb-title">Thank you to every <b class="font-black">single one of you</b><span class="sb-bar" /></h2>

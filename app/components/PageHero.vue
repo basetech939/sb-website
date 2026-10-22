@@ -1,5 +1,5 @@
 <template>
-  <section ref="root" class="relative overflow-hidden bg-navy pb-16 pt-32 text-white sm:pb-20 sm:pt-40">
+  <section ref="root" class="relative overflow-hidden bg-navy pb-16 pt-32 text-white sm:pb-20 sm:pt-40" :data-section="eyebrow.split(' ·')[0]">
     <!-- mowing stripes (or spray sheen) drift by as you scroll -->
     <div class="lanes pointer-events-none absolute inset-y-0 -left-[10%] -right-[10%] flex opacity-[0.16]">
       <span v-for="i in 12" :key="i" class="h-full flex-1" :class="i % 2 ? 'bg-mode' : 'bg-transparent'" />

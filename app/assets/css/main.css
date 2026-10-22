@@ -142,7 +142,7 @@ html.lenis, html.lenis body { height: auto; }
 }
 /* sbmowing.com heading style: uppercase, a light half and a bold half, short accent bar underneath */
 @utility sb-title {
-  @apply font-display text-[clamp(1.9rem,4.2vw,3.4rem)] font-light uppercase leading-[1.02] tracking-[0.01em] text-navy;
+  @apply font-display text-[clamp(1.9rem,4.2vw,3.4rem)] font-light uppercase leading-[1.02] tracking-[0.01em] text-navy text-balance;
 }
 @utility sb-bar {
   @apply mt-4 block h-1 w-16 rounded-full bg-mode;
