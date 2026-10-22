@@ -14,7 +14,7 @@
         </a>
       </div>
       <span class="h-6 w-px bg-navy/20" />
-      <p class="rotate-180 rounded-full bg-white/95 px-1.5 py-5 font-display text-[0.62rem] font-bold uppercase tracking-[0.32em] text-navy shadow-md ring-1 ring-navy/10 backdrop-blur [writing-mode:vertical-rl]">
+      <p class="rotate-180 rounded-full bg-white/95 px-2.5 py-3.5 font-display text-[0.62rem] font-bold uppercase tracking-[0.32em] text-navy shadow-md ring-1 ring-navy/10 backdrop-blur [writing-mode:vertical-rl]">
         <span class="text-mode-strong">{{ brand.name }}</span> · {{ total }} followers
       </p>
     </div>
@@ -45,9 +45,9 @@
       <div ref="rider" class="absolute left-1/2 top-0 grid size-9 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white text-mode-strong shadow-lg ring-2 ring-mode">
         <ModeIcon :name="mode" class="size-4.5" />
       </div>
-      <p class="absolute -bottom-9 left-1/2 -translate-x-1/2 rounded-full bg-white/95 px-2.5 py-1.5 font-display text-[0.65rem] font-black tabular-nums text-navy shadow-md ring-1 ring-navy/10 backdrop-blur"><span ref="pct">0</span>%</p>
+      <p class="absolute -bottom-9 left-1/2 -translate-x-1/2 rounded-full bg-white/95 px-2.5 py-1 font-display text-[0.65rem] font-black tabular-nums text-navy shadow-md ring-1 ring-navy/10 backdrop-blur"><span ref="pct">0</span>%</p>
       <Transition enter-active-class="transition duration-300" enter-from-class="opacity-0 translate-y-1" leave-active-class="transition duration-150" leave-to-class="opacity-0">
-        <p v-if="current" :key="current" class="absolute bottom-full left-1/2 mb-3 -translate-x-1/2 rotate-180 whitespace-nowrap rounded-full bg-white/95 px-1.5 py-4 font-display text-[0.6rem] font-bold uppercase tracking-[0.3em] text-mode-strong shadow-md ring-1 ring-navy/10 backdrop-blur [writing-mode:vertical-rl]">{{ current }}</p>
+        <p v-if="current" :key="current" class="absolute bottom-full left-1/2 mb-3 -translate-x-1/2 rotate-180 whitespace-nowrap rounded-full bg-white/95 px-2.5 py-3 font-display text-[0.6rem] font-bold uppercase tracking-[0.3em] text-mode-strong shadow-md ring-1 ring-navy/10 backdrop-blur [writing-mode:vertical-rl]">{{ current }}</p>
       </Transition>
     </div>
   </div>
