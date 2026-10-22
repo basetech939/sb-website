@@ -33,7 +33,7 @@
         <div>
           <p class="font-display text-xs font-bold uppercase tracking-[0.24em] text-white/60">Explore</p>
           <ul class="mt-4 space-y-2.5">
-            <li v-for="item in [...nav, { to: '/platforms', label: 'Platforms' }]" :key="item.to">
+            <li v-for="item in nav" :key="item.to">
               <NuxtLink :to="item.to" class="text-sm text-white/80 transition hover:text-white">{{ item.label }}</NuxtLink>
             </li>
             <li><a :href="links.shop" target="_blank" rel="noopener" class="text-sm text-white/80 transition hover:text-white">Shop</a></li>

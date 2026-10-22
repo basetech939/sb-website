@@ -71,6 +71,7 @@ export const nav = [
   { to: '/videos', label: 'Videos' },
   { to: '/about', label: 'About' },
   { to: '/equipment', label: 'My Equipment' },
+  { to: '/platforms', label: 'Platforms' },
   { to: '/mow-it-forward', label: 'Mow It Forward' },
   { to: '/contact', label: 'Contact' },
 ]
